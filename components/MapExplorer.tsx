@@ -1,0 +1,5 @@
+"use client";
+import {MapContainer,TileLayer,CircleMarker,Popup} from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+type Place={id:string,name:string,region:string,latitude:number|null,longitude:number|null,setting:string};
+export default function MapExplorer({locations}:{locations:Place[]}){const pins=locations.filter(x=>typeof x.latitude==='number'&&typeof x.longitude==='number');return <div className="map-shell"><MapContainer center={[-25.8,122.5]} zoom={5} scrollWheelZoom={false} style={{height:430,width:'100%',borderRadius:14}}><TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>{pins.map(x=><CircleMarker key={x.id} center={[x.latitude!,x.longitude!]} radius={8} pathOptions={{color:'#0b7264',fillColor:'#23a68c',fillOpacity:.82}}><Popup><b>{x.name}</b><br/>{x.region}<br/>{x.setting}</Popup></CircleMarker>)}</MapContainer><p className="hint">{pins.length} mapped locations. Add coordinates to locations to see pins. Basemap data © OpenStreetMap contributors.</p></div>}

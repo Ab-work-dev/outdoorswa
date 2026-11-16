@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server';
+import {timingSafeEqual} from 'node:crypto';
+import {checkMutationOrigin,cookieName,issueToken} from '@/lib/auth';
+export async function POST(req:Request){const origin=await checkMutationOrigin();if(origin)return origin;const {password}=await req.json().catch(()=>({password:''}));const expected=process.env.ADMIN_PASSWORD;if(!expected||expected.length<12)return NextResponse.json({error:'Configure ADMIN_PASSWORD (12+ characters)'},{status:503});const a=Buffer.from(String(password||'')),b=Buffer.from(expected);if(a.length!==b.length||!timingSafeEqual(a,b))return NextResponse.json({error:'Invalid password'},{status:401});const res=NextResponse.json({ok:true});res.cookies.set(cookieName,issueToken(),{httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'lax',path:'/',maxAge:28800});return res}
