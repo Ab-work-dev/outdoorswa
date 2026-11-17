@@ -13,7 +13,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS activity_unique_name_subtype ON activities (lo
 CREATE TABLE IF NOT EXISTS organisations (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), code text NOT NULL UNIQUE, name text NOT NULL,
  organisation_type text NOT NULL DEFAULT 'Other', roles text[] NOT NULL DEFAULT '{}',
- services text NOT NULL DEFAULT '', website text NOT NULL DEFAULT '', email text NOT NULL DEFAULT '',
+ services text NOT NULL DEFAULT '', audience text NOT NULL DEFAULT '', participation_role text NOT NULL DEFAULT '', strategic_relevance text NOT NULL DEFAULT '', existing_owa_relationship text NOT NULL DEFAULT 'Unknown', notes text NOT NULL DEFAULT '', website text NOT NULL DEFAULT '', email text NOT NULL DEFAULT '',
  phone text NOT NULL DEFAULT '', region text NOT NULL DEFAULT '', source_url text NOT NULL DEFAULT '',
  status text NOT NULL DEFAULT 'Researching' CHECK(status IN ('Researching','Verified','Needs Review')),
  last_verified date, created_at timestamptz NOT NULL DEFAULT now(),updated_at timestamptz NOT NULL DEFAULT now()
